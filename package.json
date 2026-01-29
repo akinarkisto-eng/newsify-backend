@@ -1,0 +1,13 @@
+{
+  "name": "newsify-backend",
+  "version": "1.0.0",
+  "description": "Backend for Word AI news editor using OpenAI and Vercel serverless functions",
+  "main": "api/newsify.js",
+  "type": "module",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
