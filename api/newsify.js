@@ -21,18 +21,15 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing text" });
     }
 
-    // Prompt tekoälylle
+    // 🔧 Päivitetty prompti: sitaatit säilyvät
     const prompt = `
-Muokkaa seuraava teksti uutismaiseksi.
-Säilytä faktat ja merkitys muuttumattomina.
-Tee seuraavat muutokset:
-- lyhennä pitkiä virkkeitä
-- poista puhekielisyydet ja täytesanat
-- käytä neutraalia yleiskieltä
-- vältä monimutkaisia rakenteita
-- käytä aktiivista muotoa
-- tiivistä tarvittaessa
-- älä lisää uutta tietoa
+Muokkaa seuraava teksti uutismaiseksi, mutta säilytä kaikki lainausmerkkien ("") sisällä olevat sitaatit mahdollisimman muuttumattomina.
+Älä poista asiantuntijoiden nimiä, titteleitä tai taustatietoja.
+Älä poista vivahteita, yksityiskohtia tai sävyjä.
+Voit sujuvoittaa sitaatteja vain, jos ne ovat selvästi epäselviä, mutta älä muuta niiden sisältöä tai merkitystä.
+Muokkaa ensisijaisesti ympäröivää tekstiä: rakennetta, rytmiä, selkeyttä, uutiskärkeä, taustoitusta ja loogista etenemistä.
+Älä lyhennä tekstiä tarpeettomasti.
+Palauta vain muokattu teksti ilman selityksiä, otsikoita tai metakommentteja.
 
 Teksti:
 ${text}
@@ -46,16 +43,15 @@ ${text}
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         messages: [
-          { role: "system", content: "Olet uutistoimittaja, joka muokkaa tekstiä journalistiseen tyyliin." },
+          { role: "system", content: "Toimit kokeneena uutiseditorina, joka muokkaa tekstiä journalistiseen tyyliin." },
           { role: "user", content: prompt }
         ],
-        temperature: 0.2
+        temperature: 0.4
       })
     });
 
-    // Jos OpenAI palauttaa virheen
     if (!openaiResponse.ok) {
       const errorText = await openaiResponse.text();
       console.error("OpenAI error:", errorText);
@@ -63,16 +59,12 @@ ${text}
     }
 
     const data = await openaiResponse.json();
+    const editedText = data?.choices?.[0]?.message?.content?.trim() || "";
 
-    // 🔥 Palauta muokattu teksti Wordille
-    return res.status(200).json({
-      editedText: data.choices?.[0]?.message?.content || ""
-    });
+    return res.status(200).json({ editedText });
 
   } catch (err) {
     console.error("Server error:", err);
     return res.status(500).json({ error: "AI processing failed" });
   }
 }
-
-// redeploy trigger
