@@ -74,3 +74,5 @@ ${text}
     return res.status(500).json({ error: "AI processing failed" });
   }
 }
+
+// redeploy trigger
