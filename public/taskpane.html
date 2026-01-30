@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
   <meta charset="utf-8" />
   <title>Uutiseditori</title>
 
-  <!-- Office.js on pakollinen Word-lisäosille -->
-  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <!-- Perustyyli -->
+  <link rel="stylesheet" href="/styles.css" />
 
-  <!-- Lataa CSS GitHubin raw-osoitteesta -->
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/akinarkisto-eng/word-newsify-addin/main/styles.css" />
+  <!-- Office.js -->
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
+  <div id="container">
+    <h1>Uutiseditori</h1>
+    <p>Valitse Word-dokumentista teksti ja paina nappia.</p>
 
-  <h2>Uutiseditori</h2>
+    <button id="newsify">Muokkaa uutismaiseksi</button>
+    <div id="status"></div>
+  </div>
 
-  <button id="newsify">Muuta uutismaiseksi</button>
-
-  <p id="status"></p>
-
-  <!-- Lataa JS GitHubin raw-osoitteesta -->
-  <script src="https://raw.githubusercontent.com/akinarkisto-eng/word-newsify-addin/main/taskpane.js"></script>
+  <!-- Oma logiikka -->
+  <script src="/taskpane.js"></script>
 </body>
 </html>
