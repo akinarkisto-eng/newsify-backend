@@ -1,5 +1,9 @@
+// Varmistetaan, että Office.js on valmis
 Office.onReady(() => {
-  document.getElementById("newsify").onclick = improveToNewsStyle;
+  const button = document.getElementById("newsify");
+  if (button) {
+    button.onclick = improveToNewsStyle;
+  }
 });
 
 async function improveToNewsStyle() {
@@ -8,7 +12,7 @@ async function improveToNewsStyle() {
 
   try {
     const original = await getSelectedText();
-    if (!original.trim()) {
+    if (!original || !original.trim()) {
       status.textContent = "Valitse ensin teksti dokumentista.";
       return;
     }
@@ -50,6 +54,14 @@ async function callBackend(originalText) {
     body: JSON.stringify({ text: originalText })
   });
 
+  if (!response.ok) {
+    throw new Error(`Backend error: ${response.status}`);
+  }
+
   const data = await response.json();
+  if (!data.editedText) {
+    throw new Error("Backend response missing 'editedText'");
+  }
+
   return data.editedText;
 }
