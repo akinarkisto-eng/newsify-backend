@@ -11,7 +11,15 @@
 <body>
   <div id="container">
     <h1>Uutiseditori</h1>
-    <p>Valitse Word-dokumentista teksti ja valitse editointitaso.</p>
+
+    <label for="mode">Toiminto:</label>
+    <select id="mode">
+      <option value="edit">Muokkaa uutismaiseksi</option>
+      <option value="structure">Varmista uutiskärki ja rakenne</option>
+      <option value="quotes">Luo uutiseen sopivia sitaatteja</option>
+      <option value="quoteify">Muuta osa tekstistä sitaatiksi</option>
+      <option value="autoquote">Sitaattiautomaatio (keksi sopivia sitaatteja)</option>
+    </select>
 
     <label for="editLevel">Editointitaso:</label>
     <select id="editLevel">
@@ -20,7 +28,7 @@
       <option value="strong">Vahva</option>
     </select>
 
-    <button id="newsify">Muokkaa uutismaiseksi</button>
+    <button id="newsify">Suorita</button>
     <div id="status"></div>
   </div>
 
